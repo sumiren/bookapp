@@ -1,0 +1,38 @@
+{
+  "name": "bookapp-aws",
+  "version": "0.1.0",
+  "bin": {
+    "aws": "bin/aws.js"
+  },
+  "scripts": {
+    "build": "tsc",
+    "watch": "tsc -w",
+    "deploy": "node ensureDomain.js && npm run build && npm run build --prefix ../frontend && npm run build --prefix ../backend && cdk deploy \\* --context env=prod --context parent_domain=$PARENT_DOMAIN",
+    "diff": "npm run build && npm run build --prefix ../frontend && npm run build --prefix ../backend && cdk diff \\* --context env=prod",
+    "synth": "npm run build && npm run build --prefix ../frontend && npm run build --prefix ../backend && cdk synth \\* --context env=prod",
+    "lint:eslint": "eslint . --ext ts,tsx",
+    "fix:eslint": "eslint . --ext ts,tsx --fix"
+  },
+  "devDependencies": {
+    "@types/jest": "^26.0.10",
+    "@types/node": "10.17.27",
+    "@typescript-eslint/eslint-plugin": "^5.8.1",
+    "@typescript-eslint/parser": "^5.8.1",
+    "aws-sdk": "^2.1048.0",
+    "eslint": "^7.32.0",
+    "eslint-config-standard": "^16.0.3",
+    "eslint-plugin-import": "^2.25.3",
+    "eslint-plugin-node": "^11.1.0",
+    "eslint-plugin-promise": "^5.2.0",
+    "jest": "^26.4.2",
+    "ts-jest": "^26.2.0",
+    "ts-node": "^9.0.0",
+    "typescript": "~3.9.7",
+    "@aws-cdk/aws-apigateway": "^1.162.0",
+    "@aws-cdk/aws-dynamodb": "^1.162.0",
+    "@aws-cdk/aws-lambda": "^1.162.0",
+    "@aws-cdk/core": "^1.162.0",
+    "aws-cdk": "^1.162.0",
+    "@aws-cdk/assert": "1.162.0"
+  }
+}

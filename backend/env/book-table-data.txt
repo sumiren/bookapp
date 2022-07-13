@@ -1,0 +1,5 @@
+{"Item":{"PK":{"S":"USER#user1"},"SK":{"S":"TASK#t2"},"UpdatedAt":{"S":"2021/7/2"},"TaskName":{"S":"Reserve haircut"},"Memo":{"S":"hurry2"},"BookId":{"S":"book2"},"CreatedAt":{"S":"2021/7/1"},"TaskStatus":{"S":"ACTIVE_Done"}}}
+{"Item":{"PK":{"S":"USER#user1"},"SK":{"S":"BOOK#book1"},"UpdatedAt":{"S":"2021/7/1"},"GoodByed":{"BOOL":true},"BookName":{"S":"book"},"CreatedAt":{"S":"2021/7/1"},"BookStatus":{"S":"INACTIVE_done"}}}
+{"Item":{"PK":{"S":"USER#user1"},"SK":{"S":"#PROFILE"},"UpdatedAt":{"S":"2021/8/1"},"CreatedAt":{"S":"2021/5/1"},"Email":{"S":"demo@example.com"}}}
+{"Item":{"PK":{"S":"USER#user1"},"SK":{"S":"BOOK#book2"},"UpdatedAt":{"S":"2021/9/1"},"GoodByed":{"BOOL":false},"BookMemo":{"S":"this book was too bad"},"BookName":{"S":"bad book"},"CreatedAt":{"S":"2021/6/1"},"BookStatus":{"S":"ACTIVE_doing"}}}
+{"Item":{"PK":{"S":"USER#user1"},"SK":{"S":"TASK#t1"},"UpdatedAt":{"S":"2021/9/8"},"TaskName":{"S":"Book1 first read doing"},"Memo":{"S":"will do weekend2"},"BookId":{"S":"book1"},"CreatedAt":{"S":"2021/6/8"},"TaskStatus":{"S":"INACTIVE_Done"}}}

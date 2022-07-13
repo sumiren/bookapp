@@ -1,0 +1,9 @@
+<template>
+  <v-text-field
+    label="メールアドレス"
+    variant="underlined"
+    prepend-icon="mdi-email"
+    clearable
+    clear-icon="mdi-close"
+  />
+</template>
