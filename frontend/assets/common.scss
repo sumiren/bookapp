@@ -1,0 +1,22 @@
+// $btn-font-weigh などの SCSS 変数を上書きするのが推奨方法だが、
+// 方法が分からないので無理やり対応
+.v-btn {
+  font-weight: bold !important;
+}
+
+// v-text-field に `variant="outlined"` を指定した際の
+// レイアウトが崩れているため修正
+.v-field__outline__notch {
+  border-width: 0 !important;
+}
+
+// v-btn の height が +4px された影響で
+// v-tabs のラベルの位置がズレているため修正
+.v-tabs {
+  height: auto !important;
+}
+
+// v-tabs で横スクロールが発生した際に表示される左右の余白を削除
+.v-tab.v-btn {
+  margin: 0!important;
+}
