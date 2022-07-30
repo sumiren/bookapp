@@ -15,6 +15,7 @@ async function handle () {
   const environment = Environment.of(environmentName, parentDomain)
 
   const region = AWS.config.region
+  console.log('region...' + region)
   const accountId = (await new AWS.STS().getCallerIdentity({})
     .promise()).Account
 
