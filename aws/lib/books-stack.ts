@@ -7,6 +7,7 @@ import * as ssm from '@aws-cdk/aws-ssm'
 import { BooksStackProps } from './books-stack-props'
 import * as route53 from '@aws-cdk/aws-route53'
 import * as certificateManager from '@aws-cdk/aws-certificatemanager'
+import * as secretsmanager from '@aws-cdk/aws-secretsmanager'
 
 export class BooksStack extends cdk.Stack {
   private readonly targetHostedZone: route53.IHostedZone;
@@ -174,12 +175,12 @@ export class BooksStack extends cdk.Stack {
         BOOK_TABLE_NAME: bookTable.tableName,
         SESSION_TABLE_NAME: sessionTable.tableName,
         ASSET_DOMAIN_NAME_WITH_SCHEME: this.assetDomainNameWithScheme,
-        FIREBASE_SERVICE_ACCOUNT_KEY: ssm.StringParameter.fromStringParameterAttributes(this, 'BffHandlerParam1', {
-          parameterName: '/booksapp/backend/FIREBASE_SERVICE_ACCOUNT_KEY'
-        }).stringValue,
         SESSION_SECRET: ssm.StringParameter.fromStringParameterAttributes(this, 'BffHandlerParam2', {
           parameterName: '/booksapp/backend/SESSION_SECRET'
-        }).stringValue
+        }).stringValue,
+        FIREBASE_SERVICE_ACCOUNT_KEY:
+            secretsmanager.Secret.fromSecretNameV2(this, 'BffHandlerParam1', 'booksapp/backend')
+              .secretValue.toString()
       },
       handler: 'handler.handler',
       memorySize: 1024
