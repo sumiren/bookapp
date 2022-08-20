@@ -34,9 +34,9 @@ There are 3 main folders. Each folder have independent `package.json`, npm comma
 ### At Production
 
 * frontend
-    * API Gateway and Lambda listens on `https://books.renota.cafe`,which connects to BFF
+    * API Gateway and Lambda listens on `https://books.${domainName}`,which connects to BFF
 * backend BFF
-    * API Gateway and Lambda listens on `https://bff.books.renota.cafe`, which connects to production database
+    * API Gateway and Lambda listens on `https://bff.books.${domainName}`, which connects to production database
     * production DynamoDB is up. connection configurations are passed to BFF Lambda as environment variable when CDK deploy AWS resources.
 * backend Trigger
     * Lambda is deployed to AWS so that DynamoDB calls it when updated

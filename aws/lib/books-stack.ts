@@ -1,13 +1,13 @@
-import * as cdk from '@aws-cdk/core'
-import { Duration } from '@aws-cdk/core'
-import * as lambda from '@aws-cdk/aws-lambda'
-import * as apigw from '@aws-cdk/aws-apigateway'
-import * as dynamodb from '@aws-cdk/aws-dynamodb'
-import * as ssm from '@aws-cdk/aws-ssm'
+import * as cdk from 'aws-cdk-lib'
+import { Duration } from 'aws-cdk-lib'
+import * as lambda from 'aws-cdk-lib/aws-lambda'
+import * as apigw from 'aws-cdk-lib/aws-apigateway'
+import * as dynamodb from 'aws-cdk-lib/aws-dynamodb'
+import * as ssm from 'aws-cdk-lib/aws-ssm'
 import { BooksStackProps } from './books-stack-props'
-import * as route53 from '@aws-cdk/aws-route53'
-import * as certificateManager from '@aws-cdk/aws-certificatemanager'
-import * as secretsmanager from '@aws-cdk/aws-secretsmanager'
+import * as route53 from 'aws-cdk-lib/aws-route53'
+import * as certificateManager from 'aws-cdk-lib/aws-certificatemanager'
+import * as secretsmanager from 'aws-cdk-lib/aws-secretsmanager'
 
 export class BooksStack extends cdk.Stack {
   private readonly targetHostedZone: route53.IHostedZone;
@@ -67,7 +67,7 @@ export class BooksStack extends cdk.Stack {
     const booksAssetCertificate = new certificateManager.DnsValidatedCertificate(this, 'BooksAssetCertificate', {
       domainName: this.assetDomainName,
       hostedZone: this.targetHostedZone,
-      validationMethod: certificateManager.ValidationMethod.DNS,
+      validation: certificateManager.CertificateValidation.fromDns(this.targetHostedZone),
       region: 'us-east-1'
     })
 
@@ -215,7 +215,7 @@ export class BooksStack extends cdk.Stack {
     const BooksBffCertificate = new certificateManager.DnsValidatedCertificate(this, 'BooksBffCertificate', {
       domainName: this.bffDomainName,
       hostedZone: this.targetHostedZone,
-      validationMethod: certificateManager.ValidationMethod.DNS,
+      validation: certificateManager.CertificateValidation.fromDns(this.targetHostedZone),
       region: 'us-east-1'
     })
 
