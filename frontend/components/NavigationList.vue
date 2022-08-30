@@ -4,16 +4,10 @@
       v-for="item in $C.NAVIGATION_ITEMS"
       :to="item.path"
       active-class="bg-accent"
-      class="px-8 py-4"
-    >
-      <v-list-item-action class="mr-4">
-        <v-icon v-if="item.icon">{{ item.icon }}</v-icon>
-      </v-list-item-action>
-      <v-list-item-title
-        class="font-weight-medium"
-        v-text="item.title"
-      />
-    </v-list-item>
+      :prepend-icon="item.icon"
+      :title="item.title"
+      class="font-weight-bold px-8 py-4"
+    />
   </v-list>
 </template>
 
@@ -29,11 +23,17 @@
 
 .v-list-item {
   @media #{map-get($display-breakpoints, 'sm-and-down')} {
-    display: flex;
-    justify-content: center;
-    align-items: center;
     width: 50%;
   }
+}
+
+::v-deep(.v-list-item-title) {
+  font-weight: 500;
+}
+
+::v-deep(.v-list-item__prepend .v-icon) {
+  opacity: 1;
+  margin-right: 20px;
 }
 
 ::v-deep(.v-list-item__overlay) {

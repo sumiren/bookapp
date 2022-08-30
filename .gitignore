@@ -117,6 +117,7 @@ frontend/*.log
 frontend/.nuxt
 frontend/nuxt.d.ts
 frontend/.output
+frontend/.vite
 
 aws/cdk.out/
 aws/bin/**/*.js
