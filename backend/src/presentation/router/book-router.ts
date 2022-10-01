@@ -3,7 +3,8 @@ import { BookStore } from "../dependency/book-store";
 import { Session } from "../session/session";
 import { Environment } from "../../util/environment";
 
-import { Book } from "../../domain/writemodel/book";
+import { Book as WriteModelBook  } from "../../domain/writemodel/book";
+import { Book as ReadModelBook } from "../../domain/readmodel/book";
 import { Id } from "../../domain/writemodel/id";
 
 export class BookRouter {
@@ -24,6 +25,7 @@ export class BookRouter {
       });
     });
 
+    // 書籍を1件追加
     router.post("/", async (req, res): Promise<void> => {
       const bookName = req.body.name;
       if (!bookName) {
@@ -32,10 +34,10 @@ export class BookRouter {
       }
 
       const { userId } = Session.of(req, res, environment).user;
-      const book = Book.stack(Id.of(userId), bookName);
+      const book = WriteModelBook.stack(Id.of(userId), bookName);
       await store.addBookOfUser(book);
       console.log("book was created...book =>", JSON.stringify(book));
-      res.sendStatus(200);
+      res.status(201).send(ReadModelBook.fromWriteModel(book))
     });
 
     return router;

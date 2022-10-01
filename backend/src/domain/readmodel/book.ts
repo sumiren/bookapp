@@ -1,3 +1,5 @@
+import { Book as WriteModelBook } from '../writemodel/book'
+
 export class Book {
   id: string;
 
@@ -8,6 +10,17 @@ export class Book {
   goodByed: boolean;
 
   status: BookStatus;
+
+  static fromWriteModel(writeModelBook: WriteModelBook): Book {
+    return new Book(
+      writeModelBook.id.val,
+      writeModelBook.name,
+      writeModelBook.memo,
+      writeModelBook.goodByed,
+      writeModelBook.statusVal,
+      writeModelBook.createdAt
+    )
+  }
 
   constructor(
     id: string,
