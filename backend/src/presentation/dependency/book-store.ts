@@ -6,6 +6,8 @@ export interface BookStore {
 
   addBookOfUser(book: BookWrite): Promise<any>;
 
+  deleteBookOfUser(userId: string, bookId: string): Promise<any>;
+
   getBookRaw(userId: string, bookId: string): Promise<any>;
 
   getUserProfileRaw(userId: string): Promise<any>;

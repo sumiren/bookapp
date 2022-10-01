@@ -88,6 +88,17 @@ export class DynamoBookStore implements BookStore {
     book.notifyAddedToStore(bookId, now);
   }
 
+  async deleteBookOfUser(userId: string, bookId: string): Promise<any> {
+    const params = {
+      TableName: this._configuration.bookTableName(),
+      Key: {
+        PK: `USER#${userId}`,
+        SK: `BOOK#${bookId}`
+      }
+    }
+    await this._dynamoDbDocumentClient.delete(params).promise()
+  }
+
   async getBookRaw(userId: string, bookId: string) {
     const params = {
       TableName: this._configuration.bookTableName(),

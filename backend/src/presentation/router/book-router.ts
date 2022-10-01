@@ -42,6 +42,20 @@ export class BookRouter {
       res.status(201).send(ReadModelBook.fromWriteModel(book))
     });
 
+    // 書籍を1件削除
+    router.delete('/:bookId', async (req, res): Promise<void> => {
+      const { userId } = Session.of(req, res, environment).user
+      const bookId = req.params.bookId
+
+      if (!bookId) {
+        res.sendStatus(400)
+        return
+      }
+
+      await store.deleteBookOfUser(userId, bookId)
+      res.sendStatus(204)
+    })
+
     return router;
   }
 }
