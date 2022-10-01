@@ -5,7 +5,7 @@ export class Book {
 
   name: string;
 
-  memo: string | undefined;
+  memo: string | null;
 
   goodByed: boolean;
 
@@ -25,7 +25,7 @@ export class Book {
   constructor(
     id: string,
     name: string,
-    memo: string,
+    memo: string | null,
     goodByed: boolean,
     status: BookStatus
   ) {
