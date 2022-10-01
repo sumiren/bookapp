@@ -56,6 +56,22 @@ export class BookRouter {
       res.sendStatus(204)
     })
 
+    // 書籍を1件更新
+    // TODO: 書籍更新 API がステータス以外も更新できるようにする
+    router.patch('/:bookId', async (req, res): Promise<void> => {
+      const { userId } = Session.of(req, res, environment).user
+      const bookId = req.params.bookId
+      const bookStatus = req.body.status
+
+      if (!bookId || !bookStatus) {
+        res.sendStatus(400)
+        return
+      }
+
+      await store.updateBookStatus(userId, bookId, bookStatus)
+      res.sendStatus(200)
+    })
+
     return router;
   }
 }

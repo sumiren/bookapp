@@ -185,22 +185,19 @@ export class DynamoBookStore implements BookStore {
       .promise();
   }
 
-  async updateBookStatus(userId: string, bookId: string, status: string) {
-    await this._configuration
-      .createDynamoDbDocumentClient()
-      .update({
-        ReturnConsumedCapacity: "TOTAL",
-        TableName: this._configuration.bookTableName(),
-        Key: {
-          PK: `USER#${userId}`,
-          SK: `BOOK#${bookId}`,
-        },
-        ExpressionAttributeValues: {
-          ":newStatus": status,
-        },
-        UpdateExpression: "SET BookStatus = :newStatus",
-      })
-      .promise();
+  async updateBookStatus(userId: string, bookId: string, status: BookStatus) {
+    const params = {
+      TableName: this._configuration.bookTableName(),
+      Key: {
+        PK: `USER#${userId}`,
+        SK: `BOOK#${bookId}`
+      },
+      ExpressionAttributeValues: {
+        ':newStatus': status
+      },
+      UpdateExpression: 'SET BookStatus = :newStatus'
+    }
+    await this._dynamoDbDocumentClient.update(params).promise()
   }
 
   private static rmBookStatusPrefix(prefixedStatus: string): string {
