@@ -11,6 +11,8 @@ export class Book {
 
   status: BookStatus;
 
+  createdAt: Date | null;
+
   static fromWriteModel(writeModelBook: WriteModelBook): Book {
     return new Book(
       writeModelBook.id.val,
@@ -27,13 +29,15 @@ export class Book {
     name: string,
     memo: string | null,
     goodByed: boolean,
-    status: BookStatus
+    status: BookStatus,
+    createdAt: Date | null
   ) {
     this.id = id;
     this.name = name;
     this.memo = memo;
     this.goodByed = goodByed;
     this.status = status;
+    this.createdAt = createdAt;
   }
 }
 

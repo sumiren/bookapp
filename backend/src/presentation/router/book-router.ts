@@ -10,6 +10,7 @@ import { Id } from "../../domain/writemodel/id";
 export class BookRouter {
   public static create(store: BookStore, environment: Environment): Router {
     const router = express.Router();
+
     // 自分の本を全件取得
     router.get("/", async (req, res) => {
       const { userId } = Session.of(req, res, environment).user;
@@ -21,6 +22,7 @@ export class BookRouter {
           memo: b.memo,
           status: b.status,
           goodByed: b.goodByed,
+          createdAt: b.createdAt,
         })),
       });
     });

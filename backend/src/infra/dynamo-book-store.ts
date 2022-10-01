@@ -42,7 +42,8 @@ export class DynamoBookStore implements BookStore {
           item.BookName,
           item.BookMemo,
           item.GoodByed,
-          DynamoBookStore.rmBookStatusPrefix(item.BookStatus) as BookStatus
+          DynamoBookStore.rmBookStatusPrefix(item.BookStatus) as BookStatus,
+          item.CreatedAt
         )
     );
   }
