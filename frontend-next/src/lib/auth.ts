@@ -1,7 +1,7 @@
 // Import the functions you need from the SDKs you need
 import { FirebaseApp, initializeApp } from 'firebase/app'
 import { createUserWithEmailAndPassword, getAuth, signInWithEmailAndPassword } from 'firebase/auth'
-import { bffUrl } from '~/lib/bffClient'
+import { bffUrl } from './bffClient'
 
 export abstract class Auth {
   abstract createUserWithEmailAndPassword(email: string, password: string): Promise<LoginResult>
@@ -11,12 +11,7 @@ export abstract class Auth {
   abstract loginToServer(loginResult: LoginResult): Promise<void>;
 
   static getAuth(): Auth {
-    if (typeof window === 'undefined') {
-      console.log(JSON.stringify(process.env))
-    }
-    console.log('runtime config...' + JSON.stringify(useRuntimeConfig()))
-    console.log('environment...' + useRuntimeConfig().public.ENVIRONMENT)
-    if (useRuntimeConfig().public.ENVIRONMENT === 'local') {
+    if (process.env.NEXT_PUBLIC_ENVIRONMENT === 'local') {
       return new DummyAuth()
     }
     return new FirebaseAuth()
@@ -30,15 +25,14 @@ class FirebaseAuth extends Auth {
     super()
     // Your web app's Firebase configuration
     // For Firebase JS SDK v7.20.0 and later, measurementId is optional
-    const config = useRuntimeConfig()
     const firebaseConfig = {
-      apiKey: config.public.FIREBASE_API_KEY,
-      authDomain: config.public.FIREBASE_AUTH_DOMAIN,
-      projectId: config.public.FIREBASE_PROJECT_ID,
-      storageBucket: config.public.FIREBASE_STORAGE_BUCKET,
-      messagingSenderId: config.public.FIREBASE_PROJECT_ID,
-      appId: config.public.FIREBASE_APP_ID,
-      measurementId: config.public.FIREBASE_MEASUREMENT_ID
+      apiKey: process.env.NEXT_PUBLIC_FIREBASE_API_KEY,
+      authDomain: process.env.NEXT_PUBLIC_FIREBASE_AUTH_DOMAIN,
+      projectId: process.env.NEXT_PUBLIC_FIREBASE_PROJECT_ID,
+      storageBucket: process.env.NEXT_PUBLIC_FIREBASE_STORAGE_BUCKET,
+      messagingSenderId: process.env.NEXT_PUBLIC_FIREBASE_PROJECT_ID,
+      appId: process.env.NEXT_PUBLIC_FIREBASE_APP_ID,
+      measurementId: process.env.NEXT_PUBLIC_FIREBASE_MEASUREMENT_ID
     }
 
     // Initialize Firebase
@@ -60,7 +54,7 @@ class FirebaseAuth extends Auth {
   }
 
   async loginToServer(loginResult: LoginResult): Promise<void> {
-    await $fetch(bffUrl('/auth/login'), {
+    await fetch(bffUrl('/auth/login'), {
       method: 'post',
       headers: {
         Authorization: `Bearer ${loginResult.idToken()}`
@@ -77,7 +71,7 @@ class DummyAuth extends Auth {
 
   async loginToServer(loginResult: LoginResult): Promise<void> {
     console.log('dummy auth')
-    await $fetch(bffUrl('/auth/login'), {
+    await fetch(bffUrl('/auth/login'), {
       method: 'post',
       headers: {
         Authorization: `Dev ${loginResult.uid()}`
