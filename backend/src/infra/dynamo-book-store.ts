@@ -48,7 +48,7 @@ export class DynamoBookStore implements BookStore {
     );
   }
 
-  async addBookOfUser(book: BookWrite): Promise<any> {
+  async addBookOfUser(book: BookWrite): Promise<void> {
     const bookId = uuid();
     const now = new Date();
     const params = {
@@ -88,7 +88,7 @@ export class DynamoBookStore implements BookStore {
     book.notifyAddedToStore(bookId, now);
   }
 
-  async deleteBookOfUser(userId: string, bookId: string): Promise<any> {
+  async deleteBookOfUser(userId: string, bookId: string): Promise<void> {
     const params = {
       TableName: this._configuration.bookTableName(),
       Key: {
