@@ -4,9 +4,9 @@ import { Book as BookWrite } from "../../domain/writemodel/book";
 export interface BookStore {
   getBooksOfUser(userId: string): Promise<BookRead[]>;
 
-  addBookOfUser(book: BookWrite): Promise<any>;
+  addBookOfUser(book: BookWrite): Promise<void>;
 
-  deleteBookOfUser(userId: string, bookId: string): Promise<any>;
+  deleteBookOfUser(userId: string, bookId: string): Promise<void>;
 
   getBookRaw(userId: string, bookId: string): Promise<any>;
 
