@@ -42,12 +42,13 @@ export class DynamoBookStore implements BookStore {
           item.BookName,
           item.BookMemo,
           item.GoodByed,
-          DynamoBookStore.rmBookStatusPrefix(item.BookStatus) as BookStatus
+          DynamoBookStore.rmBookStatusPrefix(item.BookStatus) as BookStatus,
+          item.CreatedAt
         )
     );
   }
 
-  async addBookOfUser(book: BookWrite): Promise<any> {
+  async addBookOfUser(book: BookWrite): Promise<void> {
     const bookId = uuid();
     const now = new Date();
     const params = {
@@ -85,6 +86,17 @@ export class DynamoBookStore implements BookStore {
     console.log(`create result: ${JSON.stringify(result)}`);
 
     book.notifyAddedToStore(bookId, now);
+  }
+
+  async deleteBookOfUser(userId: string, bookId: string): Promise<void> {
+    const params = {
+      TableName: this._configuration.bookTableName(),
+      Key: {
+        PK: `USER#${userId}`,
+        SK: `BOOK#${bookId}`
+      }
+    }
+    await this._dynamoDbDocumentClient.delete(params).promise()
   }
 
   async getBookRaw(userId: string, bookId: string) {
@@ -173,22 +185,19 @@ export class DynamoBookStore implements BookStore {
       .promise();
   }
 
-  async updateBookStatus(userId: string, bookId: string, status: string) {
-    await this._configuration
-      .createDynamoDbDocumentClient()
-      .update({
-        ReturnConsumedCapacity: "TOTAL",
-        TableName: this._configuration.bookTableName(),
-        Key: {
-          PK: `USER#${userId}`,
-          SK: `BOOK#${bookId}`,
-        },
-        ExpressionAttributeValues: {
-          ":newStatus": status,
-        },
-        UpdateExpression: "SET BookStatus = :newStatus",
-      })
-      .promise();
+  async updateBookStatus(userId: string, bookId: string, status: BookStatus) {
+    const params = {
+      TableName: this._configuration.bookTableName(),
+      Key: {
+        PK: `USER#${userId}`,
+        SK: `BOOK#${bookId}`
+      },
+      ExpressionAttributeValues: {
+        ':newStatus': status
+      },
+      UpdateExpression: 'SET BookStatus = :newStatus'
+    }
+    await this._dynamoDbDocumentClient.update(params).promise()
   }
 
   private static rmBookStatusPrefix(prefixedStatus: string): string {

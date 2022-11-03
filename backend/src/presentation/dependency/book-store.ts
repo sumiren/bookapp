@@ -1,10 +1,12 @@
-import { Book as BookRead } from "../../domain/readmodel/book";
+import { Book as BookRead, BookStatus } from "../../domain/readmodel/book";
 import { Book as BookWrite } from "../../domain/writemodel/book";
 
 export interface BookStore {
   getBooksOfUser(userId: string): Promise<BookRead[]>;
 
-  addBookOfUser(book: BookWrite): Promise<any>;
+  addBookOfUser(book: BookWrite): Promise<void>;
+
+  deleteBookOfUser(userId: string, bookId: string): Promise<void>;
 
   getBookRaw(userId: string, bookId: string): Promise<any>;
 
@@ -19,6 +21,6 @@ export interface BookStore {
   updateBookStatus(
     userId: string,
     bookId: string,
-    status: string
+    status: BookStatus
   ): Promise<void>;
 }
