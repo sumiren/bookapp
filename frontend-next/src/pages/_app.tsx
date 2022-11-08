@@ -17,7 +17,7 @@ type AppPropsWithLayout = AppProps & {
 
 const resolvedTailwindConfig = resolveConfig(tailwindConfig)
 
-// Tailwind のブレイクポイントを Mantine 用に加工
+// Tailwind のブレイクポイントを Mantine 用に変換
 const tailwindScreensForMantine: {[key: string]: number} = {}
 const tailwindScreens = resolvedTailwindConfig.theme?.screens
 if (tailwindScreens) {
@@ -27,20 +27,9 @@ if (tailwindScreens) {
   }
 }
 
-// Tailwind の色を Mantine 用に変換
-let tailwindColorsForMantine: Record<string, Tuple<string, 10>> = {}
-const tailwindColors = resolvedTailwindConfig.theme?.colors
-if (tailwindColors) {
-  for (const [name, colorsObj] of Object.entries(tailwindColors)) {
-    const colors = Object.values(colorsObj)
-    if (colors.length <= 9) continue
-    tailwindColorsForMantine[name] = colors as Tuple<string, 10>
-  }
-}
-
 const theme: MantineThemeOverride = {
   breakpoints: tailwindScreensForMantine,
-  colors: tailwindColorsForMantine
+  primaryShade: 5
 }
 
 export default function App({ Component, pageProps }: AppPropsWithLayout) {
