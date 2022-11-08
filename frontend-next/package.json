@@ -16,9 +16,11 @@
     "@mantine/hooks": "^5.7.1",
     "@mantine/next": "^5.7.1",
     "@tabler/icons": "^1.110.0",
+    "firebase": "^9.13.0",
     "next": "12.2.5",
     "react": "18.2.0",
-    "react-dom": "18.2.0"
+    "react-dom": "18.2.0",
+    "react-toastify": "^9.1.1"
   },
   "devDependencies": {
     "@types/node": "18.7.14",
